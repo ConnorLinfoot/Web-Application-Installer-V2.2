@@ -1,4 +1,4 @@
-#Web Application Installer V2
+#Web Application Installer V2.1
 
 A PHP Based script to allow you to easily install a Web Application such as a CMS, Billing &amp; More!
 
@@ -24,3 +24,9 @@ EazyCMS 0.3
 --- BILLING ---
 
 BoxBilling (Latest Version)
+
+
+
+--- FORUM ---
+
+phpBB
