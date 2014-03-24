@@ -1,21 +1,40 @@
 <!-- ======================================= -->
 <!-- =           EnkelHosting              = -->
-<!-- =      Web App Install Script 2.0     = -->
+<!-- =      Web App Install Script 2.1     = -->
 <!-- =   http://devbox.enkelhosting.com/   = -->
 <!-- ======================================= -->
 <?php 
 /*
 Auto Web Application Download/Install Script!
 
-Version 2.0
+Version 2.1
 Copyright 2014 All Rights Reserved Enkel Hosting Ltd
 
 More PHP Scrips at http://devbox.enkelhosting.com
 
 */
 
-$security = 'none'; //Security method, currently IP whitelist only! Set to any other value to turn this off!
+//		Options
+$security = 'none'; //Security method
+
+/*
+
+Security Modes:
+
+ip: Use a whitelist IP and only allow access to someone on that IP
+password: User will be asked to enter the password chosen
+none: No security will be used
+
+*/
+
+
+//		IP Whitelist Options
 $ip = '000.000.000.000'; //Remote IP
+
+
+//		Password Options
+$password = 'Password123';
+
 $debug = false;
 
 if( $security == 'ip' ){
@@ -23,6 +42,23 @@ if( $security == 'ip' ){
 		echo 'Your IP is not whitelisted!';
 		exit;
 	}
+} else if( $security == 'password' && !isset($_GET['password'] ) ){
+	echo 'Please type the password!';
+	echo '<form>';
+	echo '<input type="password" name="password">';
+	echo '<input type="submit" value="Login">';
+	echo '</form>';
+	exit;
+} else if( $security == 'password' && isset($_GET['password'] ) ){
+	if( $password != $_GET['password'] ){
+		echo 'Incorrect Password';
+		exit;
+	}
+} else if( $security == 'none' ){
+	
+} else {
+	echo 'Invalid Security Mode';
+	exit;
 }
 
 if( !$debug ){ error_reporting(0); }
@@ -45,7 +81,7 @@ if( !$_POST ){
         <option value="">--- BILLING ---</option>
         <option value="boxbilling">BoxBilling (Latest Version)</option>
         <option value="">--- FORUM ---</option>
-        <option value="phpbb2">PHPBB 3.0.12 (CS)</option>
+        <option value="phpbb">phpBB 3.0.12</option>
     </select><br />
     Install Location (Leave blank for same as file) <input type="text" name="installDir" /> (No trailing slash)<br />
     <input type="submit" name="confirm" value="Install" />
@@ -78,6 +114,10 @@ exit;
 		echo '<strong>Starting file move of ' . $app . ',</strong> this may take a while...<br>'; //Starting move message
 		
 		if( !movefilesdrupal($installDir) ){ echo 'Sorry, the move failed!<br>'; exit; } else { echo '<strong>Move Completed.</strong><br>'; } //Attempts move of files
+	} else if( $app == 'phpbb' ){ //Only run if Drupal
+		echo '<strong>Starting file move of ' . $app . ',</strong> this may take a while...<br>'; //Starting move message
+		
+		if( !movefilesphpbb($installDir) ){ echo 'Sorry, the move failed!<br>'; exit; } else { echo '<strong>Move Completed.</strong><br>'; } //Attempts move of files
 	}
 	echo '<strong>Install of ' . $app . ' has completed.</strong> Click <a href="' . $installDir . 'index.php">Here</a> to go to the install page. <strong>Remember to delete this file!</strong><br>'; //Completed message
 	
@@ -180,6 +220,43 @@ function movefilesdrupal($installDir) {
 	return true;
 }
 
+function movefilesphpbb($installDir) {
+	if( $installDir == '' ){ $installDir = './'; }
+	$mydir = $installDir;
+	if(!is_dir($mydir) && $mydir != '' ){
+		mkdir($mydir);
+	}
+	
+	//Moves all root files
+	$files = glob("$mydir/phpBB3/*.*");
+	foreach($files as $file){
+		$file_to_go = str_replace("$mydir/phpBB3/",$mydir,$file);
+		copy($file, $file_to_go);
+	}
+	
+	//Moves all dot files
+	$files = glob("$mydir/phpBB3/.*");
+	foreach($files as $file){
+		if( $file == '.' || $file == '..' ){
+			echo 'no';
+		} else {
+			$file_to_go = str_replace("$mydir/phpBB3/",$mydir,$file);
+			copy($file, $file_to_go);
+		}
+	}
+	
+	$len = strlen($mydir) + 8;
+	
+	//Move (Rename) folders
+	$folders = glob("$mydir/phpBB3/*",GLOB_ONLYDIR);
+	foreach($folders as $folder){
+		$folder2 = substr($folder, $len);;
+		rename($folder, $mydir . $folder2);
+	}
+	
+	return true;
+}
+
 function cleanUp($mydir){
 	if( $mydir == '' ){ $mydir = './'; }
 	if (is_dir("$mydir/wordpress")) {
@@ -204,12 +281,30 @@ function cleanUp($mydir){
 			}
 	}
 	
+	if (is_dir("$mydir/phpBB3")) {
+		$files = glob("$mydir/phpBB3/*");
+		foreach($files as $file){ 
+			if(is_file($file))
+				unlink($file);
+			}
+			
+		$files = glob("$mydir/phpBB3/.*");
+		foreach($files as $file){ 
+			if(is_file($file))
+				unlink($file);
+			}
+	}
+	
 	if (is_dir("$mydir/wordpress")) {
     	rmdir("$mydir/wordpress");
 	}
 	
 	if (is_dir("$mydir/drupal-7.26")) {
     	rmdir("$mydir/drupal-7.26");
+	}
+		
+	if (is_dir("$mydir/wordpress")) {
+    	rmdir("$mydir/phpBB3");
 	}
 	
 	unlink('app.zip');
