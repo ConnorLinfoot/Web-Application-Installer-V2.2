@@ -7,7 +7,7 @@
 /*
 Auto Web Application Download/Install Script!
 
-Version 2.1
+Version 2.2
 Copyright 2014 All Rights Reserved Enkel Hosting Ltd
 
 More PHP Scrips at http://devbox.enkelhosting.com
