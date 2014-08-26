@@ -1,4 +1,4 @@
-#Web Application Installer V2.1
+#Web Application Installer V2.2
 
 A PHP Based script to allow you to easily install a Web Application such as a CMS, Billing &amp; More!
 
@@ -9,7 +9,9 @@ List of support web applications:
 
 --- CMS ---
 
--Wordpress (Latest Version)
+Wordpress (Latest Version)
+
+Wordpress 4.0 Beta 4
 
 Joomla 3.2.3
 
