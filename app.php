@@ -1,6 +1,6 @@
 <!-- ======================================= -->
 <!-- =           EnkelHosting              = -->
-<!-- =      Web App Install Script 2.1     = -->
+<!-- =      Web App Install Script 2.2     = -->
 <!-- =   http://devbox.enkelhosting.com/   = -->
 <!-- ======================================= -->
 <?php 
