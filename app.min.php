@@ -1,6 +1,6 @@
 <!-- ======================================= -->
 <!-- =           EnkelHosting              = -->
-<!-- =      Web App Install Script 2.1     = -->
+<!-- =      Web App Install Script 2.2     = -->
 <!-- =   http://devbox.enkelhosting.com/   = -->
 <!-- ======================================= -->
 <?php $security = 'none'; $ip = '000.000.000.000'; $password = 'Password123'; $debug = false; if( $security == 'ip' ){ if( $ip != $_SERVER['REMOTE_ADDR'] ){ echo 'Your IP is not whitelisted!'; exit; } } else if( $security == 'password' && !isset($_GET['password'] ) ){ echo 'Please type the password!'; echo '<form>'; echo '<input type="password" name="password">'; echo '<input type="submit" value="Login">'; echo '</form>'; exit; } else if( $security == 'password' && isset($_GET['password'] ) ){ if( $password != $_GET['password'] ){ echo 'Incorrect Password'; exit; } } else if( $security == 'none' ){ } else { echo 'Invalid Security Mode'; exit; } if( !$debug ){ error_reporting(0); } if( !$_POST ){ ?>
