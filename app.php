@@ -1,6 +1,6 @@
 <!-- ======================================= -->
 <!-- =           EnkelHosting              = -->
-<!-- =      Web App Install Script 2.2     = -->
+<!-- =      Web App Install Script 2.3     = -->
 <!-- =   http://devbox.enkelhosting.com/   = -->
 <!-- ======================================= -->
 <?php 
@@ -72,7 +72,7 @@ if( !$_POST ){
     	<option value="">Please Select...</option>
         <option value="">--- CMS ---</option>
     	<option value="wordpress">Wordpress (Latest Version)</option>
-    	<option value="wordpress4b4">Wordpress 4.0 Beta 4</option>
+    	<option value="wordpress41b1">Wordpress 4.1 Beta 1</option>
         <option value="joomla3">Joomla 3.2.3</option>
         <option value="joomla2">Joomla 2.5.19</option>
         <option value="drupal7">Drupal 7.26</option>
@@ -107,7 +107,7 @@ exit;
 	
 	if( !extractCMS($app, $installDir) ){ echo 'Sorry, the extraction failed!<br>'; exit; } else { echo '<strong>Extraction Completed.</strong><br>'; } //Attempts download of file
 	
-	if( $app == 'wordpress' || $app == 'wordpress4b4' ){ //Only run if Wordpress
+	if( $app == 'wordpress' || $app == 'wordpress41b1' ){ //Only run if Wordpress
 		echo '<strong>Starting file move of ' . $app . ',</strong> this may take a while...<br>'; //Starting move message
 		
 		if( !movefileswp($installDir) ){ echo 'Sorry, the move failed!<br>'; exit; } else { echo '<strong>Move Completed.</strong><br>'; } //Attempts move of files
@@ -129,7 +129,7 @@ exit;
 
 //FUNCTIONS
 function checkCMS($app){
-	if( $app == 'wordpress' || $app == 'wordpress4b4' || $app == 'joomla2' || $app == 'joomla3' || $app == 'drupal7' || $app == 'eazycms' || $app == 'boxbilling' || $app == 'phpbb' ){
+	if( $app == 'wordpress' || $app == 'wordpress41b1' || $app == 'joomla2' || $app == 'joomla3' || $app == 'drupal7' || $app == 'eazycms' || $app == 'boxbilling' || $app == 'phpbb' ){
 		return true;
 	} else {
 		return false;
@@ -137,7 +137,7 @@ function checkCMS($app){
 }
 
 function downloadCMS($app){
-	if( $app == 'wordpress' ){ $downloadFile = 'http://wordpress.org/latest.zip'; } else if( $app == 'wordpress4b4' ){ $downloadFile = 'http://wordpress.org/wordpress-4.0-beta4.zip'; } else if( $app == 'joomla2' ){ $downloadFile = 'http://joomlacode.org/gf/download/frsrelease/19238/158101/Joomla_2.5.19-Stable-Full_Package.zip'; } else if( $app == 'joomla3' ){ $downloadFile = 'http://joomlacode.org/gf/download/frsrelease/19239/158104/Joomla_3.2.3-Stable-Full_Package.zip'; } else if( $app == 'drupal7' ){ $downloadFile = 'http://ftp.drupal.org/files/projects/drupal-7.26.zip'; } else if( $app == 'eazycms' ){ $downloadFile = 'http://eazycms.tk/download/EazyCMS_0.3.zip'; } else if( $app == 'boxbilling' ){ $downloadFile = 'http://www.boxbilling.com/version/latest.zip'; } else if( $app == 'phpbb' ){ $downloadFile = 'https://www.phpbb.com/files/release/phpBB-3.0.12.zip'; }
+	if( $app == 'wordpress' ){ $downloadFile = 'http://wordpress.org/latest.zip'; } else if( $app == 'wordpress41b1' ){ $downloadFile = 'http://wordpress.org/wordpress-4.1-beta1.zip'; } else if( $app == 'joomla2' ){ $downloadFile = 'http://joomlacode.org/gf/download/frsrelease/19238/158101/Joomla_2.5.19-Stable-Full_Package.zip'; } else if( $app == 'joomla3' ){ $downloadFile = 'http://joomlacode.org/gf/download/frsrelease/19239/158104/Joomla_3.2.3-Stable-Full_Package.zip'; } else if( $app == 'drupal7' ){ $downloadFile = 'http://ftp.drupal.org/files/projects/drupal-7.26.zip'; } else if( $app == 'eazycms' ){ $downloadFile = 'http://eazycms.tk/download/EazyCMS_0.3.zip'; } else if( $app == 'boxbilling' ){ $downloadFile = 'http://www.boxbilling.com/version/latest.zip'; } else if( $app == 'phpbb' ){ $downloadFile = 'https://www.phpbb.com/files/release/phpBB-3.0.12.zip'; }
 	if( file_put_contents("app.zip", fopen($downloadFile, 'r')) ){
 		return true;
 	} else {
